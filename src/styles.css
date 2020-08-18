@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@import "app/components/lists/lists.component.css";
+
+body {
+  background-color: #011229;
+}
+
+h2,
+p {
+  color: #ebf0f7;
+}
+
+.button {
+  background-color: #2e6aa6;
+  width: 15rem;
+  height: 1.6rem;
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 25px;
+  font-family: var(
+    --pure-material-font,
+    "Roboto",
+    "Segoe UI",
+    BlinkMacSystemFont,
+    system-ui,
+    -apple-system
+  );
+}
