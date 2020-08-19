@@ -8,7 +8,7 @@ enum Categories {
   upcoming = 'upcoming',
 }
 
-type movieResponse = {
+type MovieResponse = {
   posterPath: string;
 };
 
@@ -22,14 +22,18 @@ export class ListsComponent implements OnInit {
   category: Categories;
   constructor(private apiService: MoviesService) {}
 
-  Items: movieResponse[];
+  items: MovieResponse[];
   subs: Subscription;
 
   ngOnInit(): void {
-    this.subs = this.apiService.getMovies(this.category).subscribe((resp) => {
-      this.Items = resp;
-      // console.log(resp);
-    });
+    this.subs = this.apiService.getMovies(this.category).subscribe(
+      (resp) => {
+        this.items = resp;
+        // console.log(resp);
+      },
+      (err) => console.log('HTTP Error', err),
+      () => console.log('HTTP request completed.')
+    );
   }
 
   ngOnDestroy(): void {
