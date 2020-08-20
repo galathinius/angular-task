@@ -17,15 +17,17 @@ enum Categories {
 export class ListsComponent implements OnInit {
   @Input('category')
   category: Categories;
-  constructor(private apiService: MoviesService) {}
+  constructor(private moviesService: MoviesService) {}
 
   items: MovieResponse[];
   subs: Subscription;
 
   ngOnInit(): void {
-    this.subs = this.apiService.getMovies(this.category).subscribe((resp) => {
-      this.items = resp;
-    });
+    this.subs = this.moviesService
+      .getMovies(this.category)
+      .subscribe((resp) => {
+        this.items = resp;
+      });
   }
 
   ngOnDestroy(): void {
