@@ -1,16 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesService } from '../../services/movies/movies.service';
 import { Subscription } from 'rxjs';
+import { MovieResponse } from './../../services/constants/constants';
 
 enum Categories {
   nowPlaying = 'now_playing',
   popular = 'popular',
   upcoming = 'upcoming',
 }
-
-type MovieResponse = {
-  posterPath: string;
-};
 
 @Component({
   selector: 'app-lists',
@@ -26,14 +23,9 @@ export class ListsComponent implements OnInit {
   subs: Subscription;
 
   ngOnInit(): void {
-    this.subs = this.apiService.getMovies(this.category).subscribe(
-      (resp) => {
-        this.items = resp;
-        // console.log(resp);
-      },
-      (err) => console.log('HTTP Error', err),
-      () => console.log('HTTP request completed.')
-    );
+    this.subs = this.apiService.getMovies(this.category).subscribe((resp) => {
+      this.items = resp;
+    });
   }
 
   ngOnDestroy(): void {

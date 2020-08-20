@@ -6,18 +6,20 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TMDB_KEY, TMDB_URL } from './../services/constants/constants';
 
 @Injectable()
-export class HttpConfigInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const TMDB_KEY: string = '06f99320c4d4aafa43383b3d6c8da151';
+    const QUERY: string = request.url;
+
     const httpsReq = request.clone({
-      url: request.url.replace('api_key', `api_key=${TMDB_KEY}`),
+      url: `${TMDB_URL}${QUERY}${TMDB_KEY}`,
     });
 
     return next.handle(httpsReq);
