@@ -1,16 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesService } from '../../services/movies/movies.service';
 import { Subscription } from 'rxjs';
+import { MovieResponse } from './../../services/constants/constants';
 
 enum Categories {
   nowPlaying = 'now_playing',
   popular = 'popular',
   upcoming = 'upcoming',
 }
-
-type movieResponse = {
-  posterPath: string;
-};
 
 @Component({
   selector: 'app-lists',
@@ -22,13 +19,12 @@ export class ListsComponent implements OnInit {
   category: Categories;
   constructor(private apiService: MoviesService) {}
 
-  Items: movieResponse[];
+  items: MovieResponse[];
   subs: Subscription;
 
   ngOnInit(): void {
     this.subs = this.apiService.getMovies(this.category).subscribe((resp) => {
-      this.Items = resp;
-      // console.log(resp);
+      this.items = resp;
     });
   }
 
