@@ -8,14 +8,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit {
+  public logInLink: string;
+  private subs: Subscription;
   constructor(private authService: AuthService) {}
-
-  subs: Subscription;
-  logInLink: string;
 
   ngOnInit(): void {
     this.subs = this.authService.getToken().subscribe((resp) => {
-      localStorage.setItem('request_token', resp);
       this.logInLink = `https://www.themoviedb.org/authenticate/${resp}?redirect_to=http://localhost:4200/`;
     });
   }
