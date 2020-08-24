@@ -25,7 +25,8 @@ export class AuthService {
         this.tokensService.RequestToken = result.request_token;
         return result.request_token;
       }),
-      catchError((err) => throwError(err))
+      retry(1),
+      catchError(this.handleError)
     );
   }
   getSessionId() {
