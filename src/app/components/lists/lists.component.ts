@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MoviesService } from '../../services/movies/movies.service';
 import { Subscription } from 'rxjs';
-import { MovieResponse } from './../../services/constants/constants';
+import { MovieResponse } from '../../shared/models';
 
 enum Categories {
   nowPlaying = 'now_playing',
@@ -17,15 +17,17 @@ enum Categories {
 export class ListsComponent implements OnInit {
   @Input('category')
   category: Categories;
-  constructor(private apiService: MoviesService) {}
+  public items: MovieResponse[];
+  private subs: Subscription;
 
-  items: MovieResponse[];
-  subs: Subscription;
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    this.subs = this.apiService.getMovies(this.category).subscribe((resp) => {
-      this.items = resp;
-    });
+    this.subs = this.moviesService
+      .getMovies(this.category)
+      .subscribe((resp) => {
+        this.items = resp;
+      });
   }
 
   ngOnDestroy(): void {

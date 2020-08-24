@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { MovieResponse, MoviesLists } from './../constants/constants';
+import { MovieResponse, MoviesLists } from '../../shared/models';
 
 @Injectable({
   providedIn: 'root',

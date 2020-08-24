@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MoviesComponent } from './components/movies/movies.component';
+import { AuthComponent } from './components/auth/auth.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'log-in', component: AuthComponent },
+  { path: '', component: MoviesComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
