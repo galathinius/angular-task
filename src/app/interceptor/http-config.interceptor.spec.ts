@@ -30,21 +30,25 @@ describe('HttpConfigInterceptor', () => {
     httpMock = TestBed.get(HttpTestingController);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+  });
+
   it('should be created', () => {
     const interceptor: AuthInterceptor = TestBed.inject(AuthInterceptor);
     expect(interceptor).toBeTruthy();
   });
 
   it('should add url and api key', () => {
-    const query: string = 'movie/popular';
+    const query: string = 'test';
     service.getMovies(query).subscribe((response) => {
       expect(response).toBeTruthy();
     });
 
-    // const httpRequest = httpMock.expectOne(
-    //   `${TMDB_URL}${query}?api_key=${TMDB_KEY}`
-    // );
+    const httpRequest = httpMock.expectOne(
+      `${TMDB_URL}movie/${query}?api_key=${TMDB_KEY}`
+    );
 
-    // expect(httpRequest).toBeTruthy();
+    expect(httpRequest).toBeTruthy();
   });
 });
