@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MoviesComponent } from './movies.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('MoviesComponent', () => {
   let component: MoviesComponent;
@@ -8,6 +9,7 @@ describe('MoviesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       declarations: [MoviesComponent],
     }).compileComponents();
   }));
@@ -18,7 +20,7 @@ describe('MoviesComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
