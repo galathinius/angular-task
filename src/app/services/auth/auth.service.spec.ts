@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { of } from 'rxjs';
 
 describe('AuthService', () => {
-  let httpClientSpy: { get: jasmine.Spy };
+  let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy };
   let tokenSpy: { RequestToken: jasmine.Spy; SessionId: jasmine.Spy };
   let service: AuthService;
 
@@ -15,7 +15,7 @@ describe('AuthService', () => {
     });
     service = TestBed.inject(AuthService);
     // TODO: spy on other methods too
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']);
     tokenSpy = jasmine.createSpyObj('tokenSpy', ['RequestToken', 'SessionId']);
     service = new AuthService(httpClientSpy as any, tokenSpy as any);
   });
@@ -54,13 +54,11 @@ describe('AuthService', () => {
     type SessionResult = {
       session_id: string;
     };
-
     const expectedSession: SessionResult = { session_id: '123' };
 
-    httpClientSpy.get.and.returnValue(of(expectedSession));
+    httpClientSpy.post.and.returnValue(of(expectedSession));
 
-    service.getToken().subscribe();
-    expect(tokenSpy.SessionId).toHaveBeenCalledWith('123');
-    // expect(tokenSpy.SessionId.calls.count()).toBe(1, 'one call');
+    service.getSessionId().subscribe();
+    expect(tokenSpy.SessionId).toEqual('123');
   });
 });
