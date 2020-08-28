@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
 import { of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('AuthService', () => {
   let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy };
@@ -60,5 +61,19 @@ describe('AuthService', () => {
 
     service.getSessionId().subscribe();
     expect(tokenSpy.SessionId).toEqual('123');
+  });
+
+  it('should return an error when the server returns a 404', () => {
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404,
+      statusText: 'Not Found',
+    });
+
+    httpClientSpy.get.and.throwError(errorResponse);
+
+    expect(() => {
+      service.getToken();
+    }).toThrow();
   });
 });
