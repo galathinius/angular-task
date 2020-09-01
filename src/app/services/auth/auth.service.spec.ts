@@ -1,13 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TMDB_KEY, TMDB_URL } from '../../shared/constants';
 
 describe('AuthService', () => {
   let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy };
   let tokenSpy: { RequestToken: jasmine.Spy; SessionId: jasmine.Spy };
   let service: AuthService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,6 +24,11 @@ describe('AuthService', () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']);
     tokenSpy = jasmine.createSpyObj('tokenSpy', ['RequestToken', 'SessionId']);
     service = new AuthService(httpClientSpy as any, tokenSpy as any);
+    httpMock = TestBed.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -75,5 +85,21 @@ describe('AuthService', () => {
     expect(() => {
       service.getToken();
     }).toThrow();
+  });
+
+  it('getSessionId should show error', () => {
+    let errResponse: any;
+    service.getSessionId().subscribe(() => {
+      fail('not this'), (err) => (errResponse = err);
+    });
+
+    const req = httpMock.expectOne(
+      `${TMDB_URL}authentication/session/new?api_key=${TMDB_KEY}`
+    );
+
+    // expect(req.request.method).toEqual('POST');
+    req.flush('Failed', { status: 404, statusText: 'API Error' });
+    console.log(errResponse);
+    expect(errResponse.status).toBe(404);
   });
 });

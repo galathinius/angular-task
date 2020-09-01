@@ -35,7 +35,7 @@ export class AuthService {
       map((result: SessionResult) => {
         this.tokensService.SessionId = result.session_id;
       }),
-      retry(1),
+      // retry(1),
       catchError(this.handleError)
     );
   }
@@ -48,6 +48,6 @@ export class AuthService {
       // server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(errorMessage);
+    return throwError(error);
   }
 }

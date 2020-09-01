@@ -30,12 +30,9 @@ describe('AuthInterceptor', () => {
     const interceptor = new AuthInterceptor();
     const request = new HttpRequest('POST', 'test', null);
     interceptor.intercept(request, handler);
-    const nextRequest = handler.handle;
-    // console.log(nextRequest.calls.first().args[0]);
-    // console.log(nextRequest.calls.allArgs()[0][0]);
-    expect(nextRequest.calls.first().args[0].url).toBe(
-      `${TMDB_URL}test?api_key=${TMDB_KEY}`
-    );
+    const { url } = handler.handle.calls.first().args[0];
+    // console.log(url);
+    expect(url).toBe(`${TMDB_URL}test?api_key=${TMDB_KEY}`);
   });
 
   //testing with another service
@@ -70,5 +67,3 @@ describe('AuthInterceptor', () => {
     // });
   }
 });
-
-// test pe error handling, interceptor test fara service
