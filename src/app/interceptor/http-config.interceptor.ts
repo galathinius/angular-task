@@ -18,6 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const QUERY: string = request.url;
 
+    // Set req session
+
     const httpsReq = request.clone({
       url: `${TMDB_URL}${QUERY}?api_key=${TMDB_KEY}`,
     });

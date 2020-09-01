@@ -5,16 +5,16 @@ import { Injectable } from '@angular/core';
 })
 export class TokensService {
   constructor() {}
-  setRequestToken(token: string): void {
+  set RequestToken(token: string) {
     localStorage.setItem('request_token', token);
   }
-  getRequestToken(): string {
+  get RequestToken(): string {
     return localStorage.getItem('request_token');
   }
-  setSessionId(id: string): void {
+  set SessionId(id: string) {
     localStorage.setItem('session_id', id);
   }
-  getSessionId(): string {
+  get SessionId(): string {
     return localStorage.getItem('session_id');
   }
 }
